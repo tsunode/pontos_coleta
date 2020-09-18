@@ -1,6 +1,6 @@
 import ICreatePointDTO from '@modules/points/dtos/ICreatePointDTO';
 import IPointsRepository from '@modules/points/repositories/IPointsRepository';
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Like, Repository } from 'typeorm';
 import Point from '../entities/Points';
 
 class PointsRepository implements IPointsRepository {
@@ -14,6 +14,26 @@ class PointsRepository implements IPointsRepository {
     const point = this.ormRepository.create({ name, address });
 
     await this.ormRepository.save(point);
+
+    return point;
+  }
+
+  public async findAll(name: string): Promise<Point[] | undefined> {
+    let points: Point[];
+
+    if (name) {
+      points = await this.ormRepository.find({
+        name: Like(`%${name}%`),
+      });
+    } else {
+      points = await this.ormRepository.find();
+    }
+
+    return points;
+  }
+
+  public async findByName(name: string): Promise<Point | undefined> {
+    const point = await this.ormRepository.findOne({ name });
 
     return point;
   }
