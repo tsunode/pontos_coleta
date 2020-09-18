@@ -3,6 +3,8 @@ import { Router } from 'express';
 const pointsRouter = Router();
 
 
-pointsRouter.post('/', {});
+pointsRouter.post('/', (request, response)=>{
+
+});
 
 export default pointsRouter;
