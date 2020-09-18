@@ -4,10 +4,10 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import 'express-async-errors';
 
-import AppError from './errors/AppError';
+import AppError from '../../errors/AppError';
 import routes from './routes';
 
-import './database';
+import '@shared/infra/typeorm';
 
 const app = express();
 

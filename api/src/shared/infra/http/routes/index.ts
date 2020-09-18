@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import pointsRouter from './points.routes';
+import pointsRouter from '@modules/points/infra/http/routes/points.routes';
 
 
 const routes = Router();
