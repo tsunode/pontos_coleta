@@ -18,6 +18,12 @@ class PointsRepository implements IPointsRepository {
     return point;
   }
 
+  public async save({ id, name, address }: Point): Promise<Point> {
+    const point = await this.ormRepository.save({ id, name, address });
+
+    return point;
+  }
+
   public async findAll(name: string): Promise<Point[] | undefined> {
     let points: Point[];
 
@@ -34,6 +40,12 @@ class PointsRepository implements IPointsRepository {
 
   public async findByName(name: string): Promise<Point | undefined> {
     const point = await this.ormRepository.findOne({ name });
+
+    return point;
+  }
+
+  public async findById(id: string): Promise<Point | undefined> {
+    const point = await this.ormRepository.findOne(id);
 
     return point;
   }
