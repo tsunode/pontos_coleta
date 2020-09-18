@@ -1,4 +1,5 @@
 import IPointsRepository from '@modules/points/repositories/IPointsRepository';
+import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import Point from '../infra/typeorm/entities/Points';
 
@@ -25,6 +26,14 @@ class CreatePointService {
   ) {}
 
   public async execute({ name, address }: IRequest): Promise<Point> {
+    const pointFound = await this.pointsRepository.findByName(name);
+
+    if (pointFound) {
+      throw new AppError(
+        'This name already exists at another collection point',
+      );
+    }
+
     const point = await this.pointsRepository.create({ name, address });
 
     return point;
