@@ -1,14 +1,14 @@
 import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    OneToOne
-  } from 'typeorm';
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+} from 'typeorm';
 import Point from './Points';
 
-@Entity('Addresses')
+@Entity('addresses')
 class Address {
   @PrimaryGeneratedColumn('uuid')
   id: string;

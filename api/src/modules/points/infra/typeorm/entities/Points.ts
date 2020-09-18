@@ -1,15 +1,15 @@
 import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    OneToOne, 
-    JoinColumn
-  } from 'typeorm';
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import Address from './Addresses';
 
-@Entity('Points')
+@Entity('points')
 class Point {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -17,11 +17,11 @@ class Point {
   @Column()
   name: string;
 
-  @Column()
-  number: string;
-
-  @OneToOne(() => Address, (address: Address) => address.point, { eager: true })
-  @JoinColumn()
+  @OneToOne(() => Address, (address: Address) => address.point, {
+    eager: true,
+    cascade: true,
+  })
+  @JoinColumn({ name: 'address_id' })
   address: Address;
 
   @Column()
@@ -32,7 +32,6 @@ class Point {
 
   @UpdateDateColumn()
   updated_at: Date;
-
 }
 
 export default Point;
