@@ -2,11 +2,10 @@
 
 [![node version](https://img.shields.io/node/v/react)](https://img.shields.io/node/v/react)
 ![npm](https://img.shields.io/npm/v/react-native?label=react-native)
-[![node version](https://img.shields.io/node/v/react-native)](https://img.shields.io/node/v/react-native)
 ![npm](https://img.shields.io/npm/v/react-navigation?label=react-native-navigation)
 ![npm](https://img.shields.io/npm/v/react?label=react)
 ![npm](https://img.shields.io/npm/v/pg?label=Postgres)
-<img src="https://img.shields.io/github/languages/top/tsunodajapa/api_node_com_watson">
+<img src="https://img.shields.io/github/languages/top/tsunodajapa/pontos_coleta">
 
 [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Pontos_coleta&uri=https%3A%2F%2Fgithub.com%2Ftsunodajapa%2Fpontos_coleta%2Fblob%2Fmaster%2FInsomnia.json)
 
