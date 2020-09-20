@@ -29,7 +29,6 @@
       "prettier"
   ],
   "rules": {
-    "camelcase": "off",
     "no-unused-expressions":"off",
     "@typescript-eslint/ban-types":"off",
     "no-use-before-define": "off",
@@ -40,6 +39,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "import/prefer-default-export": "off",
+    "camelcase": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
