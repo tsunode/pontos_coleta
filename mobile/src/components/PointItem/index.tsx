@@ -31,7 +31,6 @@ const PointItem: React.FC<PointItemProps> = ({ point, isFavorite }) => {
 
   const handleToggleFavorite = useCallback(() => {
     if (isFavorite) {
-      console.log('aqui');
       removePointToFavorite(point);
     } else {
       addPointToFavorite(point);
@@ -81,7 +80,7 @@ const PointItem: React.FC<PointItemProps> = ({ point, isFavorite }) => {
         </Label>
         <Label>
           <SubTitle>Longitude: </SubTitle>
-          {point.address.latitude}
+          {point.address.longitude}
         </Label>
       </Address>
 
