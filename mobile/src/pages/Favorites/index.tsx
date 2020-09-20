@@ -1,17 +1,13 @@
-import { FormHandles } from '@unform/core';
-
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { ScrollView, View } from 'react-native';
+import Message from '../../components/Message';
 
 import PointItem from '../../components/PointItem';
 import { usePoint } from '../../hooks/points';
 
-import { Container, Title, InputGroup } from './styles';
+import { Container, Title } from './styles';
 
 const ListPoint: React.FC = () => {
-  // const [points, setPoints] = useState<Point[]>();
-  const formRef = useRef<FormHandles>(null);
-
   const { pointsFavorite } = usePoint();
 
   const renderItem = useCallback(
@@ -29,12 +25,16 @@ const ListPoint: React.FC = () => {
     <Container>
       <Title>Pontos de Coleta Favoritados</Title>
 
-      {pointsFavorite && (
+      {pointsFavorite.length > 0 && (
         <View style={{ flex: 1 }}>
           <ScrollView>
             {pointsFavorite.map(point => renderItem(point))}
           </ScrollView>
         </View>
+      )}
+
+      {pointsFavorite.length === 0 && (
+        <Message>Nenhum Ponto de Coleta favoritado</Message>
       )}
     </Container>
   );

@@ -5,6 +5,7 @@ import { FlatList, Alert, View, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import Message from '../../components/Message';
 import PointItem from '../../components/PointItem';
 import { Point, usePoint } from '../../hooks/points';
 import api from '../../services/api';
@@ -86,10 +87,15 @@ const ListPoint: React.FC = () => {
           </Button>
         </InputGroup>
       </Form>
-      {points && (
+
+      {points.length > 0 && (
         <View style={{ flex: 1 }}>
           <ScrollView>{points.map(point => renderItem(point))}</ScrollView>
         </View>
+      )}
+
+      {points.length === 0 && (
+        <Message>Nenhum ponto de coleta Cadastrado</Message>
       )}
     </Container>
   );
