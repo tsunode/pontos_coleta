@@ -8,6 +8,8 @@
 ![npm](https://img.shields.io/npm/v/pg?label=Postgres)
 <img src="https://img.shields.io/github/languages/top/tsunodajapa/api_node_com_watson">
 
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Pontos_coleta&uri=https%3A%2F%2Fgithub.com%2Ftsunodajapa%2Fpontos_coleta%2Fblob%2Fmaster%2FInsomnia.json)
+
 #### O Sistema de Ponto de Coleta, permite através de um aplicativo mobile, registar pontos de coleta com seu respectivo endereço. Toda a interação com a aplicativo é feito através de uma API em Node com banco de dados em POSTGRES.
 O aplicativo permite favoritar pontos de coletas cadastrados, para que possam serem acessados mesmo sem conexão com a internet.
 
