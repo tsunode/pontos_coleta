@@ -3,6 +3,7 @@ import CreatePointService from '@modules/points/services/CreatePointService';
 import { container } from 'tsyringe';
 import ListPointsService from '@modules/points/services/ListPointsService';
 import UpdatePointService from '@modules/points/services/UpdatePointService';
+import ShowPointService from '@modules/points/services/ShowPointService';
 
 class PointController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -18,11 +19,21 @@ class PointController {
   public async index(request: Request, response: Response): Promise<Response> {
     const { name } = request.query;
 
-    const ListPoint = container.resolve(ListPointsService);
+    const listPoint = container.resolve(ListPointsService);
 
-    const points = await ListPoint.execute(name as string);
+    const points = await listPoint.execute(name as string);
 
     return response.json(points);
+  }
+
+  public async show(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+
+    const showPoint = container.resolve(ShowPointService);
+
+    const point = await showPoint.execute(id);
+
+    return response.json(point);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {

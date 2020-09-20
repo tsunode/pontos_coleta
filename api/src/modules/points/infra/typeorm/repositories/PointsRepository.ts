@@ -39,7 +39,9 @@ class PointsRepository implements IPointsRepository {
   }
 
   public async findByName(name: string): Promise<Point | undefined> {
-    const point = await this.ormRepository.findOne({ name });
+    const point = await this.ormRepository.findOne({
+      where: `lower(name) LIKE lower('${name}')`,
+    });
 
     return point;
   }
