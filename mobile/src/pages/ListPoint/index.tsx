@@ -19,7 +19,6 @@ const ListPoint: React.FC = () => {
   const { addAnyPoints, points, pointsFavorite } = usePoint();
 
   useEffect(() => {
-    console.log('aqui');
     async function loadPoints(): Promise<void> {
       const response = await api.get<Point[]>('pontos-coleta');
 
