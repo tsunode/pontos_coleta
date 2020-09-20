@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components/native';
 
 interface ContainerProps {
-  isInputGroup: boolean;
+  isInputGroup?: boolean;
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`

@@ -34,8 +34,8 @@ const TabNavigator = () => {
 const Routes: React.FC = () => {
   return (
     <AppStack.Navigator headerMode="none">
-      {/* <AppStack.Screen name="Login" component={Login} /> */}
       <AppStack.Screen name="Home" component={TabNavigator} />
+      <AppStack.Screen name="Atualizar" component={RegisterPoint} />
     </AppStack.Navigator>
   );
 };

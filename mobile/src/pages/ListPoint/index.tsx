@@ -1,46 +1,63 @@
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/mobile';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FlatList, Alert } from 'react-native';
+import { FlatList, Alert, View, Text } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import PointItem, { PointProps } from '../../components/PointItem';
+import PointItem from '../../components/PointItem';
+import { Point, usePoint } from '../../hooks/points';
 import api from '../../services/api';
 
 import { Container, Title, InputGroup } from './styles';
 
 const ListPoint: React.FC = () => {
-  const [points, setPoints] = useState<PointProps[]>();
+  // const [points, setPoints] = useState<Point[]>();
   const formRef = useRef<FormHandles>(null);
 
-  useEffect(() => {
-    async function loadPoints() {
-      const response = await api.get<PointProps[]>('pontos-coleta');
+  const { addAnyPoints, points, pointsFavorite } = usePoint();
 
-      setPoints(response.data);
+  useEffect(() => {
+    console.log('aqui');
+    async function loadPoints(): Promise<void> {
+      const response = await api.get<Point[]>('pontos-coleta');
+
+      addAnyPoints(response.data);
     }
 
     loadPoints();
-  }, []);
+  }, [addAnyPoints]);
 
-  const handleSearch = useCallback(async (data: { name: string }) => {
-    setPoints([]);
+  const handleSearch = useCallback(
+    async (data: { name: string }) => {
+      try {
+        const response = await api.get('/pontos-coleta', {
+          params: {
+            name: data.name,
+          },
+        });
 
-    try {
-      const response = await api.get('/pontos-coleta', {
-        params: {
-          name: data.name,
-        },
-      });
+        addAnyPoints([...response.data]);
+      } catch (error) {
+        Alert.alert(
+          'Ocorreu um erro na busca',
+          'Ocorreu um erro ao realizar a busca, contate nosso suporte',
+        );
+      }
+    },
+    [addAnyPoints],
+  );
 
-      setPoints([...response.data]);
-    } catch (error) {
-      Alert.alert(
-        'Ocorreu um erro na busca',
-        'Ocorreu um erro ao realizar a busca, contate nosso suporte',
-      );
-    }
-  }, []);
+  const renderItem = useCallback(
+    item => (
+      <PointItem
+        key={item.id}
+        point={item}
+        isFavorite={!!pointsFavorite.find(point => point.id === item.id)}
+      />
+    ),
+    [pointsFavorite],
+  );
 
   return (
     <Container>
@@ -69,22 +86,11 @@ const ListPoint: React.FC = () => {
           </Button>
         </InputGroup>
       </Form>
-
-      <FlatList
-        data={points}
-        extraData={formRef}
-        contentContainerStyle={{
-          paddingBottom: 16,
-        }}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <PointItem
-            key={item.id}
-            point={item}
-            // favorited={favorites.includes(item.id)}
-          />
-        )}
-      />
+      {points && (
+        <View style={{ flex: 1 }}>
+          <ScrollView>{points.map(point => renderItem(point))}</ScrollView>
+        </View>
+      )}
     </Container>
   );
 };

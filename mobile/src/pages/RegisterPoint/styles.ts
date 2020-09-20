@@ -11,8 +11,8 @@ export const Container = styled.View`
 export const Title = styled.Text`
   color: #364159;
   font-size: 24px;
-
-  margin-bottom: 15px;
+  text-align: center;
+  width: 100%;
 `;
 
 export const SubTitle = styled.Text`
@@ -42,4 +42,12 @@ export const InputGroup = styled.View`
   justify-content: space-between;
 
   /* flex-wrap: wrap; */
+`;
+
+export const Header = styled.View`
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 15px;
 `;

@@ -1,5 +1,7 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Point, usePoint } from '../../hooks/points';
 
 import {
   Container,
@@ -12,28 +14,30 @@ import {
   TextButton,
 } from './styles';
 
-export interface PointProps {
-  id: string;
-  name: string;
-  address: {
-    id: string;
-    street: string;
-    number: string;
-    neighborhood: string;
-    city: string;
-    state: string;
-    zipcode: string;
-    latitude: string;
-    longitude: string;
-    complement: string;
-  };
-}
-
 interface PointItemProps {
-  point: PointProps;
+  point: Point;
+  isFavorite: boolean;
 }
 
-const PointItem: React.FC<PointItemProps> = ({ point }) => {
+const PointItem: React.FC<PointItemProps> = ({ point, isFavorite }) => {
+  const navigation = useNavigation();
+  const { addPointToFavorite, removePointToFavorite } = usePoint();
+
+  const handleEditPoint = useCallback(() => {
+    navigation.navigate('Atualizar', {
+      point_id: point.id,
+    });
+  }, [navigation, point]);
+
+  const handleToggleFavorite = useCallback(() => {
+    if (isFavorite) {
+      console.log('aqui');
+      removePointToFavorite(point);
+    } else {
+      addPointToFavorite(point);
+    }
+  }, [addPointToFavorite, removePointToFavorite, isFavorite, point]);
+
   return (
     <Container>
       <Title>{point.name}</Title>
@@ -82,12 +86,12 @@ const PointItem: React.FC<PointItemProps> = ({ point }) => {
       </Address>
 
       <Footer>
-        <Button onPress={() => console.log('Tetse')} activeOpacity={0.4}>
+        <Button onPress={handleEditPoint} activeOpacity={0.4}>
           <Icon name="pen" size={20} solid color="#fff" />
           <TextButton>Alterar</TextButton>
         </Button>
         <Button
-          onPress={() => console.log('Tetse')}
+          onPress={handleToggleFavorite}
           activeOpacity={0.4}
           style={{
             backgroundColor: '#c53030',
@@ -97,8 +101,8 @@ const PointItem: React.FC<PointItemProps> = ({ point }) => {
             width: '40%',
           }}
         >
-          <Icon name="heart" size={20} solid color="#fff" />
-          <TextButton>Favoritar</TextButton>
+          <Icon name="heart" size={20} solid={isFavorite} color="#fff" />
+          <TextButton>{isFavorite ? 'Desfavoritar' : 'Favoritar'}</TextButton>
         </Button>
       </Footer>
     </Container>
