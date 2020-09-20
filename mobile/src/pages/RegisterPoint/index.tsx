@@ -13,7 +13,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import axios from 'axios';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
@@ -55,9 +54,9 @@ const RegisterPoint: React.FC = () => {
     formRef.current?.setErrors({});
     formRef.current?.reset();
 
-    async function getPoint(): Promise<void> {
+    async function getPoint(paramsPointId: string): Promise<void> {
       try {
-        const response = await api.get(`pontos-coleta/${pointId}`);
+        const response = await api.get(`pontos-coleta/${paramsPointId}`);
 
         formRef.current?.setData(response.data);
       } catch (error) {
@@ -74,9 +73,9 @@ const RegisterPoint: React.FC = () => {
 
       setPointId(paramsPointId);
 
-      getPoint();
+      getPoint(paramsPointId);
     }
-  }, [route, pointId]);
+  }, [route]);
 
   const handleSearchGeoCode = useCallback(async () => {
     const { address } = formRef.current?.getData() as Point;
@@ -123,6 +122,7 @@ const RegisterPoint: React.FC = () => {
   const handleSavePoint = useCallback(
     async (data: object) => {
       try {
+        console.log(data);
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
