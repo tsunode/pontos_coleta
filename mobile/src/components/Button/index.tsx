@@ -5,11 +5,12 @@ import { Container, ButtonText } from './styles';
 
 interface ButtonProps extends RectButtonProperties {
   children: string;
+  isInputGroup?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, ...rest }) => {
+const Button: React.FC<ButtonProps> = ({ children, isInputGroup, ...rest }) => {
   return (
-    <Container {...rest}>
+    <Container isInputGroup={isInputGroup} {...rest}>
       <ButtonText>{children}</ButtonText>
     </Container>
   );

@@ -1,17 +1,24 @@
 import React, { useCallback, useRef } from 'react';
-import { KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+  ScrollView,
+} from 'react-native';
 import { Form } from '@unform/mobile';
 import { FormHandles, Scope } from '@unform/core';
 import * as Yup from 'yup';
+import { useNavigation } from '@react-navigation/native';
 
-import { ScrollView } from 'react-native-gesture-handler';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import { Container, Title, FieldSet, SubTitle } from './styles';
+import { Container, Title, FieldSet, SubTitle, InputGroup } from './styles';
 import getValidationErrors from '../../utils/getValidationErros';
+import api from '../../services/api';
 
 const RegisterPoint: React.FC = () => {
+  const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
 
   const handleSavePoint = useCallback(async (data: object) => {
@@ -24,7 +31,7 @@ const RegisterPoint: React.FC = () => {
           street: Yup.string().required('Rua Obrigatório'),
           neighborhood: Yup.string().required('Bairro Obrigatório'),
           city: Yup.string().required('Cidade Obrigatório'),
-          state: Yup.string().required('Estado Obrigatório'),
+          state: Yup.string().required('Estado Obrigatório').max(2),
           zipcode: Yup.string().required('Cep Obrigatório'),
           longitude: Yup.string().required('Longitude Obrigatório'),
           latitude: Yup.string().required('Latitude Obrigatório'),
@@ -34,6 +41,15 @@ const RegisterPoint: React.FC = () => {
       await schema.validate(data, {
         abortEarly: false,
       });
+
+      await api.post('pontos-coleta', data);
+
+      Alert.alert(
+        'Cadastro realizado com sucesso!',
+        'Você já pode verificar o ponto, na tela de listagem.',
+      );
+
+      navigation.navigate('Cadastrados');
     } catch (error) {
       console.log(error);
 
@@ -45,10 +61,14 @@ const RegisterPoint: React.FC = () => {
         return;
       }
 
-      Alert.alert(
-        'Erro no  cadastro',
-        'Ocorreu um erro ao fazer cadastro, tente novamente',
-      );
+      if (error.response) {
+        Alert.alert('Erro no  cadastro', error.response.data.message);
+      } else {
+        Alert.alert(
+          'Erro no  cadastro',
+          'Ocorreu um erro ao realizar o cadastro, contate nosso suporte',
+        );
+      }
     }
   }, []);
 
@@ -65,6 +85,7 @@ const RegisterPoint: React.FC = () => {
 
             <Form ref={formRef} onSubmit={handleSavePoint}>
               <Input
+                label="Nome"
                 autoCapitalize="words"
                 name="name"
                 icon="compass"
@@ -77,67 +98,88 @@ const RegisterPoint: React.FC = () => {
 
                 <Scope path="address">
                   <Input
+                    label="Rua"
                     autoCapitalize="words"
                     name="street"
                     placeholder="Rua"
                     returnKeyType="next"
                   />
 
-                  <Input
-                    autoCapitalize="words"
-                    name="neighborhood"
-                    placeholder="Bairro"
-                    returnKeyType="next"
-                  />
+                  <InputGroup>
+                    <Input
+                      label="Bairro"
+                      autoCapitalize="words"
+                      name="neighborhood"
+                      placeholder="Bairro"
+                      returnKeyType="next"
+                      width={60}
+                    />
+
+                    <Input
+                      label="Número"
+                      autoCapitalize="words"
+                      name="number"
+                      placeholder="Número"
+                      returnKeyType="next"
+                      width={35}
+                    />
+                  </InputGroup>
 
                   <Input
-                    autoCapitalize="words"
-                    name="number"
-                    placeholder="Número"
-                    returnKeyType="next"
-                  />
-
-                  <Input
+                    label="Complemento (opcional)"
                     autoCapitalize="words"
                     name="complement"
                     placeholder="Complemento"
                     returnKeyType="next"
                   />
 
-                  <Input
-                    autoCapitalize="words"
-                    name="city"
-                    placeholder="Cidade"
-                    returnKeyType="next"
-                  />
+                  <InputGroup>
+                    <Input
+                      label="Cidade"
+                      autoCapitalize="words"
+                      name="city"
+                      placeholder="Cidade"
+                      returnKeyType="next"
+                      width={65}
+                    />
+
+                    <Input
+                      label="Estado"
+                      autoCapitalize="words"
+                      name="state"
+                      placeholder="Estado"
+                      returnKeyType="next"
+                      width={30}
+                      maxLength={2}
+                    />
+                  </InputGroup>
 
                   <Input
-                    autoCapitalize="words"
-                    name="state"
-                    placeholder="Estado"
-                    returnKeyType="next"
-                  />
-
-                  <Input
+                    label="Cep"
                     autoCapitalize="words"
                     name="zipcode"
                     placeholder="Cep"
                     returnKeyType="next"
                   />
+                  <InputGroup>
+                    <Input
+                      label="Latitude"
+                      autoCapitalize="words"
+                      name="latitude"
+                      placeholder="Latitude"
+                      returnKeyType="next"
+                      width={48}
+                    />
 
-                  <Input
-                    autoCapitalize="words"
-                    name="latitude"
-                    placeholder="Latitude"
-                    returnKeyType="next"
-                  />
-
-                  <Input
-                    autoCapitalize="words"
-                    name="longitude"
-                    placeholder="Longitude"
-                    returnKeyType="next"
-                  />
+                    <Input
+                      label="Longitude"
+                      autoCapitalize="words"
+                      name="longitude"
+                      placeholder="Longitude"
+                      returnKeyType="next"
+                      width={48}
+                    />
+                  </InputGroup>
                 </Scope>
               </FieldSet>
 

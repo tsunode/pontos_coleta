@@ -6,14 +6,16 @@ import React, {
   useCallback,
   forwardRef,
 } from 'react';
-import { TextInputProps } from 'react-native';
+import { TextInputProps, View } from 'react-native';
 import { useField } from '@unform/core';
 
-import { Container, TextInput, Icon } from './styles';
+import { Container, InputContainer, TextInput, Icon, Label } from './styles';
 
 interface InputProps extends TextInputProps {
   name: string;
+  label?: string;
   icon?: string;
+  width?: number;
 }
 
 interface InputValueReference {
@@ -25,7 +27,7 @@ interface InputRef {
 }
 
 const Input: React.RefForwardingComponent<InputRef, InputProps> = (
-  { name, icon, ...rest },
+  { name, icon, label, width, ...rest },
   ref,
 ) => {
   const inputElementRef = useRef<any>(null);
@@ -69,27 +71,30 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
   }, [fieldName, registerField]);
 
   return (
-    <Container isFocused={isFocused} isErrored={!!error}>
-      {icon && (
-        <Icon
-          name={icon}
-          size={20}
-          color={isFocused || isFilled ? '#230A59' : '#E3D9CA'}
-        />
-      )}
+    <Container width={width}>
+      {label && <Label>{label}</Label>}
+      <InputContainer isFocused={isFocused} isErrored={!!error}>
+        {icon && (
+          <Icon
+            name={icon}
+            size={20}
+            color={isFocused || isFilled ? '#230A59' : '#E3D9CA'}
+          />
+        )}
 
-      <TextInput
-        ref={inputElementRef}
-        placeholderTextColor="#E3D9CA"
-        keyboardAppearance="dark"
-        defaultValue={defaultValue}
-        onFocus={handleInputFocus}
-        onBlur={handleInputBlur}
-        onChangeText={value => {
-          inputValueRef.current.value = value;
-        }}
-        {...rest}
-      />
+        <TextInput
+          ref={inputElementRef}
+          placeholderTextColor="#E3D9CA"
+          keyboardAppearance="dark"
+          defaultValue={defaultValue}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+          onChangeText={value => {
+            inputValueRef.current.value = value;
+          }}
+          {...rest}
+        />
+      </InputContainer>
     </Container>
   );
 };
