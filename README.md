@@ -2,7 +2,6 @@
 
 [![node version](https://img.shields.io/node/v/react)](https://img.shields.io/node/v/react)
 ![npm](https://img.shields.io/npm/v/react-native?label=react-native)
-[![node version](https://img.shields.io/node/v/react-native)](https://img.shields.io/node/v/react-native)
 ![npm](https://img.shields.io/npm/v/react-navigation?label=react-native-navigation)
 ![npm](https://img.shields.io/npm/v/react?label=react)
 ![npm](https://img.shields.io/npm/v/pg?label=Postgres)
