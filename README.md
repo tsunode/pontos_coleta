@@ -37,7 +37,7 @@ O aplicativo permite favoritar pontos de coletas cadastrados, para que possam se
 
 ## Como utilizar
 
-#### 1. Primeiramente, é necessário criar um conta (gratuita) em <a href="https://developer.here.com/i" > developer.here.com</a>.
+#### 1. Primeiramente, é necessário criar um conta (gratuita) em <a href="https://developer.here.com/" > developer.here.com</a>.
 
 #### 2. Após a confirmação do cadastro você terá acesso a uma <b>API_KEY</b>. Na raiz do projeto do MOBILE (cd mobile) crie um arquivo '.env' seguindo o parâmetro do arquivo .env.example, substituta 'YOUR_API_KEY_HERE' pela sua <b>API_KEY</b> 
 
